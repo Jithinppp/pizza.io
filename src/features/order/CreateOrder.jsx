@@ -1,5 +1,9 @@
-import { Form, redirect, useNavigation } from "react-router-dom";
+import { Form, redirect, useActionData, useNavigation } from "react-router-dom";
 import { createOrder } from "../../services/apiRestaurants";
+import Button from "../../ui/Button";
+
+// phone validation
+const isValidPhone = (phoneNumber) => /^[6-9]\d{9}$/.test(phoneNumber);
 
 const fakeCart = [
   {
@@ -27,24 +31,54 @@ const fakeCart = [
 function CreateOrder() {
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
+
+  // if the action not completed the formData can be accessed from a hook called useActionsData()
+  // the returned value from the action because we not redirected because errors object there
+  const formData = useActionData();
+
   return (
-    <div>
-      <h2>Form</h2>
+    <div className="m-auto sm:max-w-[90vw]">
       {/* we can use POST,PATCH,DELETE not GET actions happens only from r-r-d form with these methods
       we can use action="/order/new" but r-r-d does for us automatically
        */}
       <Form method="POST">
-        <input placeholder="first name" name="customer" />
-        <input placeholder="phone number" name="phone" />
-        <input placeholder="address" name="address" />
-        <div>
-          <input type="checkbox" name="priority" />
-          <label htmlFor="priority">you want priority</label>
+        <div className="my-2">
+          <label htmlFor="customer" className="mb-3 text-lg">
+            First name
+          </label>
+          <input name="customer" required className="input" />
+        </div>
+        <div className="my-2 ">
+          <label htmlFor="phone" className="mb-3 text-lg">
+            Phone number
+          </label>
+          <input name="phone" required className="input" />
+          {formData?.phone && (
+            <p className="rounded-md bg-red-50 p-1 text-xs text-red-700 ">
+              {formData.phone}
+            </p>
+          )}
+        </div>
+        <div className="my-2">
+          <label className="mb-3 text-lg" htmlFor="address">
+            Address
+          </label>
+          <input name="address" required className="input" />
+        </div>
+        <div className="my-4 flex items-center space-x-3 ">
+          <input
+            type="checkbox"
+            name="priority"
+            className="h-6 w-6 accent-yellow-400 transition-all focus:outline-none focus:ring focus:ring-yellow-400 focus:ring-offset-2"
+          />
+          <label className="text-lg" htmlFor="priority">
+            Do you want priority?
+          </label>
         </div>
         <input type="hidden" name="cart" value={JSON.stringify(fakeCart)} />
-        <button disabled={isSubmitting} type="submit">
-          {isSubmitting ? "placing order" : "order"}
-        </button>
+        <Button disabled={isSubmitting}>
+          {isSubmitting ? "Placing order" : "Order now"}
+        </Button>
       </Form>
     </div>
   );
@@ -63,6 +97,15 @@ export const action = async ({ request }) => {
     cart: JSON.parse(data.cart),
     priority: data.priority === "on",
   };
+  const errors = {};
+  if (!isValidPhone(order.phone)) {
+    errors.phone = "Please give a valid phone number.";
+  }
+
+  if (Object.keys(errors).length > 0) {
+    return errors;
+  }
+  // if no errors then create new order and takes to that route
   const newOrder = await createOrder(order);
   return redirect(`/order/${newOrder.id}`);
 };

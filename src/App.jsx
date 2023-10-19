@@ -61,3 +61,10 @@ function App() {
   return <RouterProvider router={router} />;
 }
 export default App;
+
+// user can see all the menu items
+// user can add items to cart
+// user can sign-in with gmail
+// user can sign-out
+// user can checkout the cart if only authenticated
+// user can see all the prev and current orders if authenticated

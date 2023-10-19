@@ -6,11 +6,11 @@ import MenuItem from "./MenuItem";
 function Menu() {
   const menuData = useLoaderData();
   return (
-    <div>
+    <ul className="my-2 flex flex-col divide-y divide-stone-200">
       {menuData.map((item) => (
         <MenuItem key={item.id} pizza={item} />
       ))}
-    </div>
+    </ul>
   );
 }
 
