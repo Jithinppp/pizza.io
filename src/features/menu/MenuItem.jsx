@@ -1,9 +1,9 @@
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
 import Button from "../../ui/Button";
+import { formatCurrency } from "../../utils/helpers";
 
 function MenuItem({ pizza }) {
-  const { id, name, unitPrice, soldOut, ingredients, imageUrl } = pizza;
+  const { name, unitPrice, soldOut, ingredients, imageUrl } = pizza;
   return (
     <li className="flex space-x-3 py-2">
       <img
@@ -20,11 +20,13 @@ function MenuItem({ pizza }) {
         </div>
         <div className="flex items-center justify-between">
           {!soldOut ? (
-            <span>{unitPrice}</span>
+            <span className="font-bold text-green-500">
+              {formatCurrency(unitPrice)}
+            </span>
           ) : (
             <span className="font-medium capitalize">sold out</span>
           )}
-          <Button secondary={true}>Add to cart</Button>
+          <Button type="secondary">Add to cart</Button>
         </div>
       </div>
     </li>

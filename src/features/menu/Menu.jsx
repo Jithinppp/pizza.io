@@ -21,7 +21,7 @@ function Menu() {
 export const loader = async () => {
   const menu = await getMenu();
   //   must return the data
-  console.log(menu);
+  // console.log(menu);
   return menu;
 };
 

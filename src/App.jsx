@@ -10,10 +10,11 @@ import CreateOrder, {
 } from "./features/order/CreateOrder";
 import AppLayout from "./ui/AppLayout";
 import ErrorPage from "./ui/ErrorPage";
+import Cart from "./features/cart/Cart";
 
 const router = createBrowserRouter([
   // why createBrowserRouter -> new version of react-router-dom documentation
-  // we can achieve data fetching/data loading with react-router-dom (eg:form-submissions)
+  // we can achieve data fetching/data loading with react-router-dom (eg:form-submissions,fetch)
   // its imperative approach
   {
     // act as a layout no need path aka layout route
@@ -52,7 +53,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/cart",
-        element: <User />,
+        element: <Cart />,
       },
     ],
   },
