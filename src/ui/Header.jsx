@@ -1,7 +1,11 @@
 import { Link } from "react-router-dom";
 import SearchOrder from "../features/order/SearchOrder";
+import { useSelector } from "react-redux";
+import { selectCartItems } from "../features/cart/cartSlice";
 
 function Header() {
+  const { cartItems } = useSelector((state) => state.cart);
+
   return (
     <header className="flex items-center justify-between bg-yellow-400 p-2">
       <Link
@@ -16,7 +20,8 @@ function Header() {
           <Link to={"/user"}>User</Link>
         </li>
         <li>
-          <Link to={"/cart"}>Cart</Link>
+          <Link to={"/cart"}>Cart {cartItems.length}</Link>
+          {}
         </li>
         <li>
           <Link to={"/menu"}>Menu</Link>

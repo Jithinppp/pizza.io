@@ -5,6 +5,7 @@ import MenuItem from "./MenuItem";
 
 function Menu() {
   const menuData = useLoaderData();
+  console.log(menuData);
   return (
     <ul className="my-2 flex flex-col divide-y divide-stone-200">
       {menuData.map((item) => (

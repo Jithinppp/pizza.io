@@ -6,6 +6,8 @@ import {
   getAuth,
   onAuthStateChanged,
   signInWithPopup,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
 } from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -26,7 +28,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
-const auth = getAuth();
+export const auth = getAuth();
 const provider = new GoogleAuthProvider();
 
 export const checkUserExist = () => {
@@ -39,12 +41,38 @@ export const checkUserExist = () => {
   });
 };
 
-export const googleSignIn = async () => {
+// recaptcha verifier
+export const createRecaptchaVerifier = () => {
+  window.recaptchaVerifier = new RecaptchaVerifier(auth, "sign-in-button", {
+    size: "invisible",
+  });
+};
+
+// const appVerifier = window.recaptchaVerifier;
+
+export const signIn = async (phone) => {
   try {
-    const res = await signInWithPopup(auth, provider);
-    console.log(res);
-    return res;
+    const confirmationResult = await signInWithPhoneNumber(
+      auth,
+      `+91 ${phone}`,
+      window.recaptchaVerifier,
+    );
+    window.confirmationResult = confirmationResult;
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
+  }
+};
+
+export const confirmOtp = async (otp) => {
+  try {
+    const res = await window.confirmationResult.confirm(otp);
+    const user = {
+      phoneNumber: res.phoneNumber,
+      uid: res.uid,
+      accessToken: res.accessToken,
+    };
+    return user;
+  } catch (error) {
+    console.log(error);
   }
 };

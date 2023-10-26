@@ -15,7 +15,7 @@ function AppLayout() {
   useEffect(() => {
     // check current user exist or not
     const user = checkUserExist();
-    console.log(user);
+    // console.log(user);
     if (user) {
       setCurrentUser(user);
     }

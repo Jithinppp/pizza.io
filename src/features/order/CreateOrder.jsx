@@ -28,6 +28,9 @@ const fakeCart = [
     totalPrice: 12,
   },
 ];
+
+// TODO: only authenticated users can see this
+
 function CreateOrder() {
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";

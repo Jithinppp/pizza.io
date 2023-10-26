@@ -1,3 +1,4 @@
+// libs
 import { useLoaderData } from "react-router-dom";
 import { getOrder } from "../../services/apiRestaurants";
 import {
@@ -5,8 +6,10 @@ import {
   formatCurrency,
   formatDate,
 } from "../../utils/helpers";
-import CartItem from "../cart/CartItem";
+// uis
 import OrderItem from "./OrderItem";
+
+// TODO: only authenticated users can see this
 
 function Order() {
   const orderData = useLoaderData();
@@ -14,7 +17,6 @@ function Order() {
     id,
     cart,
     status,
-    customer,
     estimatedDelivery,
     orderPrice,
     priority,

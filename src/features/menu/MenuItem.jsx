@@ -1,9 +1,12 @@
 import PropTypes from "prop-types";
 import Button from "../../ui/Button";
 import { formatCurrency } from "../../utils/helpers";
+import { useDispatch } from "react-redux";
+import { addItem } from "../cart/cartSlice";
 
 function MenuItem({ pizza }) {
-  const { name, unitPrice, soldOut, ingredients, imageUrl } = pizza;
+  const { id, imageUrl, ingredients, name, soldOut, unitPrice } = pizza;
+  const dispatch = useDispatch();
   return (
     <li className="flex space-x-3 py-2">
       <img
@@ -26,7 +29,22 @@ function MenuItem({ pizza }) {
           ) : (
             <span className="font-medium capitalize">sold out</span>
           )}
-          <Button type="secondary">Add to cart</Button>
+          <Button
+            onClick={() =>
+              dispatch(
+                addItem({
+                  id,
+                  name,
+                  quantity: 1,
+                  unitPrice,
+                  totalPrice: unitPrice,
+                }),
+              )
+            }
+            type="secondary"
+          >
+            Add to cart
+          </Button>
         </div>
       </div>
     </li>

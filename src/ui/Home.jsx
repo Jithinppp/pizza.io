@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
-import { googleSignIn } from "../utils/firebase.utils";
 
 function Home() {
   const navigate = useNavigate();
@@ -15,13 +14,15 @@ function Home() {
       <div className="mb-4 mt-2">
         <span className="mr-1">Welcome! please</span>
         <button
-          onClick={() => googleSignIn()}
+          onClick={() => navigate("/user")}
           className="text-blue-600 underline outline-none"
         >
           sign in
         </button>
       </div>
-      <Button onClick={() => navigate("/menu")}>Start ordering</Button>
+      <Button type="primary" onClick={() => navigate("/menu")}>
+        Start ordering
+      </Button>
     </div>
   );
 }
