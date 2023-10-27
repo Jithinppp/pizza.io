@@ -36,7 +36,6 @@ function User() {
       // set authState true
       signIn(phone).then(() => {
         setLoading(true);
-        console.log("loading set true and otp send now verify");
       });
     } else {
       alert("enter a valid phone");

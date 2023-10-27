@@ -2,7 +2,15 @@ import { createSlice } from "@reduxjs/toolkit";
 
 // 1 initial state
 const initialState = {
-  cartItems: [],
+  cartItems: [
+    // {
+    //   id: 12,
+    //   name: "Mediterranean",
+    //   quantity: 3,
+    //   unitPrice: 16,
+    //   totalPrice: 16,
+    // },
+  ],
   cartTotal: 0,
 };
 // 2 reducer function
@@ -22,7 +30,7 @@ const cartSlice = createSlice({
             ? {
                 ...item,
                 quantity: item.quantity + 1,
-                totalPrice: item.totalPrice * item.quantity,
+                totalPrice: item.unitPrice * (item.quantity + 1),
               }
             : item,
         );
@@ -30,7 +38,19 @@ const cartSlice = createSlice({
         state.cartItems.push(action.payload);
       }
     },
-    decrementItem: (state, action) => {},
+    decrementItem: (state, action) => {
+      if (action.payload.quantity > 1) {
+        state.cartItems = state.cartItems.map((item) =>
+          item.id === action.payload.id
+            ? {
+                ...item,
+                quantity: item.quantity - 1,
+                totalPrice: item.unitPrice * (item.quantity - 1),
+              }
+            : item,
+        );
+      }
+    },
     deleteItem: (state, action) => {
       state.cartItems = state.cartItems.filter(
         (item) => item.id !== action.payload.id,
@@ -43,7 +63,8 @@ const cartSlice = createSlice({
 });
 
 // actions/dispatch functions
-export const { addItem, removeItem, deleteItem, clearCart } = cartSlice.actions;
+export const { addItem, removeItem, deleteItem, clearCart, decrementItem } =
+  cartSlice.actions;
 
 // selectors
 export const selectCartItems = (state) => state.cart.cartItems;

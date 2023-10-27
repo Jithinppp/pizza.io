@@ -1,30 +1,56 @@
-import { Outlet, useNavigation } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigation } from "react-router-dom";
 // uis
 import Header from "./Header";
 import CartOverview from "../features/cart/CartOverview";
 import Loader from "./Loader";
-import { useEffect, useState } from "react";
-import { checkUserExist } from "../utils/firebase.utils";
+import { useSelector } from "react-redux";
+import { selectCartItems } from "../features/cart/cartSlice";
+import { selectUser } from "../features/user/userSlice";
 
 function AppLayout() {
   const { state } = useNavigation();
-  const [currentUser, setCurrentUser] = useState(null);
+  const location = useLocation();
+  const cartItems = useSelector(selectCartItems);
+  const user = useSelector(selectUser);
 
   const isLoading = state === "loading";
-
-  useEffect(() => {
-    // check current user exist or not
-    const user = checkUserExist();
-    // console.log(user);
-    if (user) {
-      setCurrentUser(user);
-    }
-  }, []);
 
   return (
     <div>
       {isLoading && <Loader />}
       <Header />
+      <div>
+        <ul className="my-3 flex items-center justify-evenly gap-4 font-semibold text-stone-800 sm:hidden">
+          {!user.uid && (
+            <li>
+              <Link
+                className=" transition-all duration-100 ease-in hover:border-b-2 hover:border-slate-500"
+                to={"/user"}
+              >
+                User
+              </Link>
+            </li>
+          )}
+          {location.pathname !== "/cart" && (
+            <li>
+              <Link
+                className=" transition-all duration-100 ease-in hover:border-b-2 hover:border-slate-500"
+                to={"/cart"}
+              >
+                Cart {cartItems.length}
+              </Link>
+            </li>
+          )}
+          <li>
+            <Link
+              className=" transition-all duration-100 ease-in hover:border-b-2 hover:border-slate-500"
+              to={"/menu"}
+            >
+              Menu
+            </Link>
+          </li>
+        </ul>
+      </div>
       <main className=" mx-3 min-h-[80vh]">
         {/* to render all nested child components */}
         <Outlet />

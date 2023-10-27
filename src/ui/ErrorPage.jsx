@@ -4,7 +4,6 @@ import { useNavigate, useRouteError } from "react-router-dom";
 function ErrorPage() {
   const navigate = useNavigate();
   const error = useRouteError();
-  console.log(error);
   return (
     <div>
       <p>Ops error occurred</p>

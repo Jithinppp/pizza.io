@@ -29,22 +29,24 @@ function MenuItem({ pizza }) {
           ) : (
             <span className="font-medium capitalize">sold out</span>
           )}
-          <Button
-            onClick={() =>
-              dispatch(
-                addItem({
-                  id,
-                  name,
-                  quantity: 1,
-                  unitPrice,
-                  totalPrice: unitPrice,
-                }),
-              )
-            }
-            type="secondary"
-          >
-            Add to cart
-          </Button>
+          {!soldOut && (
+            <Button
+              onClick={() =>
+                dispatch(
+                  addItem({
+                    pizzaId: id,
+                    name,
+                    quantity: 1,
+                    unitPrice,
+                    totalPrice: unitPrice,
+                  }),
+                )
+              }
+              type="secondary"
+            >
+              Add to cart
+            </Button>
+          )}
         </div>
       </div>
     </li>

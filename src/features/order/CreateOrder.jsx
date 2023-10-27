@@ -1,25 +1,37 @@
-import { Form, redirect, useActionData, useNavigation } from "react-router-dom";
+import {
+  Form,
+  Link,
+  redirect,
+  useActionData,
+  useNavigation,
+} from "react-router-dom";
 import { createOrder } from "../../services/apiRestaurants";
 import Button from "../../ui/Button";
+import { useSelector } from "react-redux";
+import { selectUser } from "../user/userSlice";
+import { useState } from "react";
+import { selectCartItems } from "../cart/cartSlice";
 
 // phone validation
 const isValidPhone = (phoneNumber) => /^[6-9]\d{9}$/.test(phoneNumber);
 
+// TODO: only authenticated users can see this
+
 const fakeCart = [
-  {
-    pizzaId: 12,
-    name: "Mediterranean",
-    quantity: 2,
-    unitPrice: 16,
-    totalPrice: 32,
-  },
-  {
-    pizzaId: 13,
-    name: "Vegetale",
-    quantity: 3,
-    unitPrice: 20,
-    totalPrice: 60,
-  },
+  // {
+  //   pizzaId: 12,
+  //   name: "Mediterranean",
+  //   quantity: 2,
+  //   unitPrice: 16,
+  //   totalPrice: 32,
+  // },
+  // {
+  //   pizzaId: 13,
+  //   name: "Vegetale",
+  //   quantity: 3,
+  //   unitPrice: 20,
+  //   totalPrice: 60,
+  // },
   {
     pizzaId: 14,
     name: "Spinach and Mushroom",
@@ -29,15 +41,35 @@ const fakeCart = [
   },
 ];
 
-// TODO: only authenticated users can see this
-
 function CreateOrder() {
   const navigation = useNavigation();
+  const { currentUser } = useSelector(selectUser);
+  const cart = useSelector(selectCartItems);
+
   const isSubmitting = navigation.state === "submitting";
+
+  const [nameInput, setNameInput] = useState("");
+  const [phoneInput, setPhoneInput] = useState(null);
 
   // if the action not completed the formData can be accessed from a hook called useActionsData()
   // the returned value from the action because we not redirected because errors object there
   const formData = useActionData();
+
+  // if no user authenticated say not authorized
+  if (!currentUser.uid)
+    return (
+      <div className="mt-10">
+        <h1>
+          You are not authorized Please
+          <Link
+            className="border-b-2 border-blue-600 text-blue-600"
+            to={"/user"}
+          >
+            Login
+          </Link>
+        </h1>
+      </div>
+    );
 
   return (
     <div className="m-auto sm:max-w-[90vw]">
@@ -49,13 +81,25 @@ function CreateOrder() {
           <label htmlFor="customer" className="mb-3 text-lg">
             First name
           </label>
-          <input name="customer" required className="input" />
+          <input
+            name="customer"
+            required
+            className="input"
+            value={currentUser.name}
+            onChange={(e) => setNameInput(e.target.value)}
+          />
         </div>
         <div className="my-2 ">
           <label htmlFor="phone" className="mb-3 text-lg">
             Phone number
           </label>
-          <input name="phone" required className="input" />
+          <input
+            name="phone"
+            required
+            className="input"
+            value={currentUser.phone}
+            onChange={(e) => setPhoneInput(e.target.value)}
+          />
           {formData?.phone && (
             <p className="rounded-md bg-red-50 p-1 text-xs text-red-700 ">
               {formData.phone}
@@ -78,8 +122,8 @@ function CreateOrder() {
             Do you want priority?
           </label>
         </div>
-        <input type="hidden" name="cart" value={JSON.stringify(fakeCart)} />
-        <Button disabled={isSubmitting} type="primary">
+        <input type="hidden" name="cart" value={JSON.stringify(cart)} />
+        <Button disabled={isSubmitting || cart.length <= 0} type="primary">
           {isSubmitting ? "Placing order" : "Order now"}
         </Button>
       </Form>
