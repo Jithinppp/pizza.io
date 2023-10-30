@@ -61,10 +61,17 @@ function User() {
 
   if (currentUser) {
     return (
-      <div>
+      <div className="mt-10 flex flex-col items-center justify-center">
         <div id="sign-in-button" className="sign-in-button"></div>
-        <p>
+        <p className="text-xl font-bold">
           Hi <span>{currentUser.name}</span>
+        </p>
+        <p className="mt-2">
+          A pizza delivery app is a convenient and efficient solution that
+          brings the pizzeria experience to the customer's fingertips. It offers
+          a wide range of features to simplify the ordering process, enhance the
+          user experience, and provide access to a delicious pizza meal with
+          minimal effort.
         </p>
       </div>
     );
