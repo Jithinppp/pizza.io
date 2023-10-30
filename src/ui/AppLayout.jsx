@@ -1,7 +1,6 @@
 import { Link, Outlet, useLocation, useNavigation } from "react-router-dom";
 // uis
 import Header from "./Header";
-import CartOverview from "../features/cart/CartOverview";
 import Loader from "./Loader";
 import { useSelector } from "react-redux";
 import { selectCartItems } from "../features/cart/cartSlice";
@@ -55,7 +54,6 @@ function AppLayout() {
         {/* to render all nested child components */}
         <Outlet />
       </main>
-      <CartOverview />
     </div>
   );
 }
