@@ -5,7 +5,6 @@ import {
   GoogleAuthProvider,
   getAuth,
   onAuthStateChanged,
-  signInWithPopup,
   RecaptchaVerifier,
   signInWithPhoneNumber,
 } from "firebase/auth";
@@ -59,17 +58,18 @@ export const signIn = async (phone) => {
     );
     window.confirmationResult = confirmationResult;
   } catch (error) {
-    console.log(error);
+    return error.message;
   }
 };
 
 export const confirmOtp = async (otp) => {
   try {
     const res = await window.confirmationResult.confirm(otp);
+
     const user = {
-      phoneNumber: res.phoneNumber,
-      uid: res.uid,
-      accessToken: res.accessToken,
+      phoneNumber: res.user.phoneNumber,
+      uid: res.user.uid,
+      accessToken: res.user.accessToken,
     };
     return user;
   } catch (error) {

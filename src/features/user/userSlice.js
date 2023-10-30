@@ -1,12 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  currentUser: {
-    name: "raj",
-    uid: 1232323,
-    phone: 9895956000,
-  },
+  currentUser: null,
   authState: false,
+  otpSend: false,
 };
 
 const userSlice = createSlice({
@@ -25,6 +22,9 @@ const userSlice = createSlice({
     unSetAuthState: (state) => {
       state.authState = false;
     },
+    setOtpSend: (state) => {
+      state.otpSend = true;
+    },
   },
 });
 
@@ -33,6 +33,7 @@ export const {
   removeCurrentUser,
   setAuthState,
   unSetAuthState,
+  setOtpSend,
 } = userSlice.actions;
 
 // selectors

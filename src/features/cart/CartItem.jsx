@@ -20,7 +20,13 @@ function CartItem({ item }) {
             <button onClick={() => dispatch(decrementItem(item))}>-</button>
           )}
           <span className="mx-3">{quantity}</span>
-          <button onClick={() => dispatch(addItem(item))}>+</button>
+          <button
+            onClick={() => {
+              dispatch(addItem(item));
+            }}
+          >
+            +
+          </button>
         </div>
         <Button type="secondary" onClick={() => dispatch(deleteItem(item))}>
           Delete

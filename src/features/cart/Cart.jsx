@@ -41,6 +41,9 @@ function Cart() {
       <h2 className="my-2 text-3xl font-medium tracking-tighter">
         Your cart {name}
       </h2>
+      {cart.length <= 0 && (
+        <p className="my-10 text-slate-400">Cart is empty 😀</p>
+      )}
       <ul className=" gap-2 divide-y divide-stone-200 border-b">
         {cart.map((item, idx) => (
           <CartItem key={idx} item={item} />

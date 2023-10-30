@@ -8,6 +8,9 @@ import {
 } from "../../utils/helpers";
 // uis
 import OrderItem from "./OrderItem";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { clearCart } from "../cart/cartSlice";
 
 // TODO: only authenticated users can see this
 
@@ -23,6 +26,12 @@ function Order() {
     priorityPrice,
   } = orderData;
   const estimatedDel = calcMinutesLeft(estimatedDelivery);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (id) {
+      dispatch(clearCart());
+    }
+  }, []);
   return (
     <div className="m-auto sm:max-w-[90vw]">
       <div className="mt-7 flex flex-col items-center gap-5 sm:flex-row sm:justify-between">
@@ -72,6 +81,7 @@ function Order() {
 // loader
 export const loader = async ({ params }) => {
   const data = await getOrder(params.orderId);
+
   return data;
   // return null;
 };

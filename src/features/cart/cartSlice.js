@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   cartItems: [
     // {
-    //   id: 12,
+    //   pizzaId: 12,
     //   name: "Mediterranean",
     //   quantity: 3,
     //   unitPrice: 16,
@@ -22,11 +22,11 @@ const cartSlice = createSlice({
     addItem: (state, action) => {
       // if exist increment quantity else add
       const existing = state.cartItems.some(
-        (item) => item.id === action.payload.id,
+        (item) => item.pizzaId === action.payload.pizzaId,
       );
       if (existing) {
         state.cartItems = state.cartItems.map((item) =>
-          item.id === action.payload.id
+          item.pizzaId === action.payload.pizzaId
             ? {
                 ...item,
                 quantity: item.quantity + 1,
@@ -41,7 +41,7 @@ const cartSlice = createSlice({
     decrementItem: (state, action) => {
       if (action.payload.quantity > 1) {
         state.cartItems = state.cartItems.map((item) =>
-          item.id === action.payload.id
+          item.pizzaId === action.payload.pizzaId
             ? {
                 ...item,
                 quantity: item.quantity - 1,
@@ -53,7 +53,7 @@ const cartSlice = createSlice({
     },
     deleteItem: (state, action) => {
       state.cartItems = state.cartItems.filter(
-        (item) => item.id !== action.payload.id,
+        (item) => item.pizzaId !== action.payload.pizzaId,
       );
     },
     clearCart: (state) => {

@@ -17,30 +17,6 @@ const isValidPhone = (phoneNumber) => /^[6-9]\d{9}$/.test(phoneNumber);
 
 // TODO: only authenticated users can see this
 
-const fakeCart = [
-  // {
-  //   pizzaId: 12,
-  //   name: "Mediterranean",
-  //   quantity: 2,
-  //   unitPrice: 16,
-  //   totalPrice: 32,
-  // },
-  // {
-  //   pizzaId: 13,
-  //   name: "Vegetale",
-  //   quantity: 3,
-  //   unitPrice: 20,
-  //   totalPrice: 60,
-  // },
-  {
-    pizzaId: 14,
-    name: "Spinach and Mushroom",
-    quantity: 1,
-    unitPrice: 12,
-    totalPrice: 12,
-  },
-];
-
 function CreateOrder() {
   const navigation = useNavigation();
   const { currentUser } = useSelector(selectUser);
@@ -56,11 +32,11 @@ function CreateOrder() {
   const formData = useActionData();
 
   // if no user authenticated say not authorized
-  if (!currentUser.uid)
+  if (!currentUser)
     return (
       <div className="mt-10">
         <h1>
-          You are not authorized Please
+          You are not authorized Please{" "}
           <Link
             className="border-b-2 border-blue-600 text-blue-600"
             to={"/user"}

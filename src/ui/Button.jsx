@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+
 function Button({ disabled, children, onClick, type }) {
   const color = {
     yellow: " bg-yellow-400 hover:bg-yellow-300 focus:ring-yellow-200 ",

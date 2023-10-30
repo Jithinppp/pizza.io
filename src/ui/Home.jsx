@@ -1,7 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
+import { useSelector } from "react-redux";
+import { selectUser } from "../features/user/userSlice";
 
 function Home() {
+  const { currentUser } = useSelector(selectUser);
   const navigate = useNavigate();
   return (
     <div className="flex h-[400px] flex-col items-center justify-center">
@@ -12,13 +15,21 @@ function Home() {
         Straight out of oven, straight to you
       </p>
       <div className="mb-4 mt-2">
-        <span className="mr-1">Welcome! please</span>
-        <button
-          onClick={() => navigate("/user")}
-          className="text-blue-600 underline outline-none"
-        >
-          sign in
-        </button>
+        {!currentUser?.uid ? (
+          <>
+            <span className="mr-1">Welcome! please</span>
+            <button
+              onClick={() => navigate("/user")}
+              className="text-blue-600 underline outline-none"
+            >
+              sign in
+            </button>
+          </>
+        ) : (
+          <>
+            <span className="mr-1">Welcome! {currentUser.name}</span>
+          </>
+        )}
       </div>
       <Button type="primary" onClick={() => navigate("/menu")}>
         Start ordering
